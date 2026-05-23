@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  # Oracle Database
+  oracle-db:
+    image: gvenzl/oracle-xe:latest
+    container_name: food-app-oracle
+    environment:
+      ORACLE_PASSWORD: foodapp_password
+    ports:
+      - "1521:1521"
+    volumes:
+      - oracle-data:/opt/oracle/oradata
+      - ./database:/docker-entrypoint-initdb.d
+    networks:
+      - food-app-network
+
+  # Java Backend
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    container_name: food-app-backend
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:oracle:thin:@oracle-db:1521:xe
+      SPRING_DATASOURCE_USERNAME: system
+      SPRING_DATASOURCE_PASSWORD: foodapp_password
+    ports:
+      - "8080:8080"
+    depends_on:
+      - oracle-db
+    networks:
+      - food-app-network
+
+  # Angular Frontend
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    container_name: food-app-frontend
+    ports:
+      - "4200:4200"
+    depends_on:
+      - backend
+    networks:
+      - food-app-network
+
+volumes:
+  oracle-data:
+
+networks:
+  food-app-network:
+    driver: bridge

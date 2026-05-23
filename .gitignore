@@ -1,0 +1,49 @@
+# Dependencies
+node_modules/
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+
+# Build artifacts
+/dist/
+/build/
+/target/
+/.gradle/
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE specific
+*.iml
+*.sublime-workspace
+
+# Angular
+/frontend/dist/
+/frontend/node_modules/
+/frontend/.angular/
+
+# Backend
+/backend/target/
+/backend/.gradle/
+
+# Database
+oracle-data/
+
+# Logs
+*.log
+logs/
+
+# OS
+Thumbs.db
